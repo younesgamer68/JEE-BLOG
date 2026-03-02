@@ -7,15 +7,25 @@ import jakarta.mail.internet.*;
 public class EmailUtil {
 
     // =====================================================================
-    //  !! CONFIGURED FOR BREVO SMTP !!
-    //  1. The host is now Brevo's SMTP relay.
-    //  2. SMTP_USER is your registered Brevo email.
-    //  3. SMTP_PASSWORD is your Brevo API/SMTP Key.
+    //  BREVO SMTP — works BOTH locally (IntelliJ) AND on Railway
+    //
+    //  YOUR CREDENTIALS:
+    //  1. Go to https://app.brevo.com
+    //  2. Top menu → SMTP & API → SMTP tab
+    //  3. You will see:
+    //       SMTP Server : smtp-relay.brevo.com
+    //       Port        : 587
+    //       Login       : gameryounes68@gmail.com
+    //       Password    : (generate a NEW SMTP key — the old one was exposed)
+    //  4. Paste the new key below in SMTP_PASSWORD
+    //
+    //  !! YOUR OLD KEY WAS SHARED PUBLICLY — DELETE IT IMMEDIATELY !!
+    //  Brevo Dashboard → SMTP & API → SMTP Keys → delete the old one → create new
     // =====================================================================
     private static final String SMTP_HOST     = "smtp-relay.brevo.com";
     private static final int    SMTP_PORT     = 587;
     private static final String SMTP_USER     = "gameryounes68@gmail.com";
-    private static final String SMTP_PASSWORD = "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"; // <-- Replace with your NEW key after deleting this one!
+    private static final String SMTP_PASSWORD = "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";
     // =====================================================================
 
     // ----------------------------------------------------------------
@@ -74,15 +84,16 @@ public class EmailUtil {
     }
 
     // ----------------------------------------------------------------
-    //  Internal helper
+    //  Internal helper — Brevo SMTP works on both local + Railway
     // ----------------------------------------------------------------
-    private static void sendHtmlEmail(String toEmail, String subject, String htmlBody, String consoleFallback) {
+    private static void sendHtmlEmail(String toEmail, String subject,
+                                      String htmlBody, String consoleFallback) {
         Properties props = new Properties();
-        props.put("mail.smtp.auth",             "true");
-        props.put("mail.smtp.starttls.enable",  "true");
-        props.put("mail.smtp.host",             SMTP_HOST);
-        props.put("mail.smtp.port",             String.valueOf(SMTP_PORT));
-        props.put("mail.smtp.ssl.trust",        "smtp-relay.brevo.com"); // <-- This must match the Brevo host
+        props.put("mail.smtp.auth",            "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host",            SMTP_HOST);
+        props.put("mail.smtp.port",            String.valueOf(SMTP_PORT));
+        props.put("mail.smtp.ssl.trust",       "smtp-relay.brevo.com");
 
         Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -98,7 +109,7 @@ public class EmailUtil {
             message.setSubject(subject);
             message.setContent(htmlBody, "text/html; charset=utf-8");
             Transport.send(message);
-            System.out.println(">>> Email sent to: " + toEmail);
+            System.out.println(">>> [Brevo SMTP] Email sent to: " + toEmail);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println(consoleFallback);
