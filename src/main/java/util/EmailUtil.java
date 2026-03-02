@@ -12,17 +12,11 @@ public class EmailUtil {
     //  2. SMTP_USER is your registered Brevo email.
     //  3. SMTP_PASSWORD is your Brevo API/SMTP Key.
     // =====================================================================
-// =====================================================================
-    //  !! CONFIGURED FOR RAILWAY ENVIRONMENT VARIABLES !!
-    // =====================================================================
     private static final String SMTP_HOST     = "smtp-relay.brevo.com";
     private static final int    SMTP_PORT     = 587;
-
-    // Java will grab these securely from Railway when the app runs!
-    private static final String SMTP_USER     = System.getenv("BREVO_SMTP_USER");
-    private static final String SMTP_PASSWORD = System.getenv("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");
+    private static final String SMTP_USER     = "gameryounes68@gmail.com";
+    private static final String SMTP_PASSWORD = "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"; // <-- Replace with your NEW key after deleting this one!
     // =====================================================================
-
 
     // ----------------------------------------------------------------
     //  ACCOUNT VALIDATION EMAIL  (sent on registration)
